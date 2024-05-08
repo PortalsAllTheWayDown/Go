@@ -1,0 +1,12 @@
+Open source programming language developed by Google
+
+It has a focus on simplicity clarity and scalability.
+High performance and focus on concurrency.
+Batteries included(comes with a standard library and many core features are built in)
+static typing, Allows you to catch many errors early.
+
+Popular use-cases:
+Networking & APIs
+Microservices
+CLI Tools
+
