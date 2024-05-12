@@ -16,7 +16,7 @@ func (todo Todo) Display() {
 
 }
 
-func (note Todo) Save() error {
+func (todo Todo) Save() error {
 	fileName := "todo.json"
 
 	json, err := json.Marshal(todo)
