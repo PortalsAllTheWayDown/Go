@@ -1,0 +1,22 @@
+Variables that store value addresses instead of values.
+a variable value is stored in the computers memory at an address.
+
+age := 32
+agePointer := &age
+
+Why Pointers??
+
+Avoid Unnecessary Value Copies
+
+Directly Mutate Values
+
+functions when putting variable into creates a new memory spot until its done and the garbage collector throws it out instead of the original variable
+
+A Pointer's Null Value
+All values in Go have a so-called "Null Value" - i.e., the value that's set as a default if no value is assigned to a variable.
+
+For example, the null value of an int variable is 0. Of a float64, it would be 0.0. Of a string, it's "".
+
+For a pointer, it's nil - a special value built-into Go.
+
+nil represents the absence of an address value - i.e., a pointer pointing at no address / no value in memory.

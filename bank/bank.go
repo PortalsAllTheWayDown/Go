@@ -1,37 +1,16 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
-	"strconv"
+
+	"example.com/bank/fileops"
+	"github.com/Pallinder/go-randomdata"
 )
 
 const accountBalanceFile = "balance.txt"
 
-func writeBalanceToFile(balance float64) {
-	balanceText := fmt.Sprint(balance)
-	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
-}
-
-func getBalanceFromFile() (float64, error) {
-	data, err := os.ReadFile(accountBalanceFile)
-
-	if err != nil {
-		return 1000, errors.New("Failed to find balance file.")
-	}
-
-	balanceText := string(data)
-	balance, err := strconv.ParseFloat(balanceText, 64)
-	if err != nil {
-		return 1000, errors.New("Failed to parse stored balance value.")
-	}
-	return balance, nil
-
-}
-
 func main() {
-	var accountBalance, err = getBalanceFromFile()
+	var accountBalance, err = fileops.GetFloatFromFile(accountBalanceFile)
 	if err != nil {
 		fmt.Println("Error")
 		fmt.Println(err)
@@ -40,13 +19,10 @@ func main() {
 	}
 
 	fmt.Println("Welcome to Go Bank!")
+	fmt.Println("Reach us at:", randomdata.PhoneNumber())
 
 	for {
-		fmt.Println("What do you want to do?")
-		fmt.Println("1. Check balance")
-		fmt.Println("2. Deposit money")
-		fmt.Println("3. Withdraw money")
-		fmt.Println("4. Exit")
+		presentOptions()
 
 		var choice int
 		fmt.Print("Your choice: ")
@@ -67,7 +43,7 @@ func main() {
 
 			accountBalance += depositAmount
 			fmt.Println("Balance updated! new amount: ", accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 		case 3:
 			fmt.Print("Your withdrawal: ")
 			var withdrawalAmount float64
@@ -85,50 +61,11 @@ func main() {
 
 			accountBalance -= withdrawalAmount
 			fmt.Println("Balance updated! new amount: ", accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 		default:
 			fmt.Println("Goodbye!")
 			fmt.Println("Thanks for choosing our bank")
 			return
 		}
-
-		// wantsCheckBalance := choice == 1
-
-		// if wantsCheckBalance {
-		// 	fmt.Println("Your balance is", accountBalance)
-		// } else if choice == 2 {
-		// 	fmt.Print("Your deposit: ")
-		// 	var depositAmount float64
-		// 	fmt.Scan(&depositAmount)
-
-		// 	if depositAmount <= 0 {
-		// 		fmt.Println("Invalid amount. Must be greated than 0.")
-		// 		continue
-		// 	}
-
-		// 	accountBalance += depositAmount
-		// 	fmt.Println("Balance updated! new amount: ", accountBalance)
-		// } else if choice == 3 {
-		// 		fmt.Print("Your withdrawal: ")
-		// 		var withdrawalAmount float64
-		// 		fmt.Scan(&withdrawalAmount)
-
-		// 		if withdrawalAmount <= 0 {
-		// 			fmt.Printf("Invalid amount. Must be greater than 0.")
-		// 			continue
-		// 		}
-
-		// 		if withdrawalAmount > accountBalance {
-		// 			fmt.Println("Invalid amount. You cant withdraw more than you have.")
-		// 			continue
-		// 		}
-
-		// 		accountBalance -= withdrawalAmount
-		// 		fmt.Println("Balance updated! new amount: ", accountBalance)
-		// 	} else {
-		// 		fmt.Println("Goodbye!")
-		// 		break
-		// 	}
-		// }
 	}
 }
